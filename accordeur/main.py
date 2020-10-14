@@ -29,18 +29,18 @@ strings = collections.OrderedDict([
     ("Mi aigu, E4", 329.63)
 ])
 
-fs_rate, signal = wavfile.read("82.407.wav")
-print("Frequency sampling", fs_rate)
+fs_rate, signal = wavfile.read("output.wav")
+# print("Frequency sampling", fs_rate)
 l_audio = len(signal.shape)
-print("Channels", l_audio)
+# print("Channels", l_audio)
 if l_audio == 2:
     signal = signal.sum(axis=1) / 2
 N = signal.shape[0]
-print("Complete Samplings N", N)
+# print("Complete Samplings N", N)
 secs = N / float(fs_rate)
-print("secs", secs)
+print("Longueur de l'audio ", secs, " secs")
 Ts = 1.0/fs_rate  # sampling interval in time
-print("Timestep between samples Ts", Ts)
+# print("Timestep between samples Ts", Ts)
 t = np.arange(0, secs, Ts)  # time vector as scipy arange field / numpy.ndarray
 FFT = abs(fft(signal))
 FFT_side = FFT[range(N//2)]  # one side FFT range
