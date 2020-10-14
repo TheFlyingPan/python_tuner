@@ -50,7 +50,7 @@ freqs_side = freqs[range(N//2)]  # one side frequency range
 # Trouver la plus haute intensité de son et trouver sa fréquence
 index = np.where(FFT_side == np.amax(FFT_side))
 
-the_note = round(freqs_side[index[0]], 2)
+the_note = np.round(freqs_side[index[0]], 2)
 
 high = None
 low = None
@@ -72,7 +72,7 @@ if low != None:
     low_ecart = convert(low[1], the_note)
 
 if high_ecart != None and low_ecart != None:
-    if high_ecart < low_ecart:
+    if abs(high_ecart) < abs(low_ecart):
         the_goal = high
     else:
         the_goal = low
@@ -83,14 +83,14 @@ if high_ecart != None and low_ecart == None:
 if low_ecart != None and high_ecart == None:
     the_goal = low
 
-
-print("Note : ", the_goal[0])
-if convert(the_note, the_goal[1]) > 0.1:
-    print("Descendez la corde", convert(the_goal[1], the_note))
-elif convert(the_note, the_goal[1]) < 0.1 and convert(the_note, the_goal[1]) > -0.1:
-    print("OK", convert(the_note, the_goal[1]))
-elif convert(the_note, the_goal[1]) < -0.1:
-    print("Montez la corde", convert(the_goal[1],the_note))
+print("Fréquence détectée : ", the_note[0], "Hz")
+print("Corde detectée : ", the_goal[0], the_goal[1], "Hz")
+if convert(the_goal[1], the_note) < 1:
+    print("Descendez la corde", convert(the_goal[1], the_note) / 100)
+elif convert(the_goal[1], the_note) > 1 and convert(the_goal[1], the_note) < -1:
+    print("OK")
+elif convert(the_goal[1], the_note) > -1:
+    print("Montez la corde", "+" + str(convert(the_goal[1],the_note) / 100))
 
 
 # plotting the positive fft spectrum
